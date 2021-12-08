@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -7,17 +7,51 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 
+import {useNavigation} from '@react-navigation/native';
+
+import api from '../../services';
 export default function SignUp() {
+  const navigation = useNavigation();
+
+  const [data, setData] = useState({});
+
+  const handleLogin = () => {
+    navigation.navigate('Logar');
+  };
+
+  const handleRegister = useCallback(() => {
+    api
+      .post('users', data)
+      .then(() => navigation.navigate('Logar'))
+      .catch(() => alert('Houve algum erro'));
+  }, [data, navigation]);
+
   return (
     <SafeAreaView>
       <View style={styles.default}>
         <View style={styles.card}>
-          <TextInput placeholder="Informe seu email" />
-          <TextInput placeholder="Informe sua senha" secureTextEntry={true} />
-          <TouchableOpacity>
-            <Text> Cadastrar</Text>
+          <TextInput
+            placeholder="Informe seu nome"
+            onChangeText={e => setData({...data, name: e})}
+          />
+          <TextInput
+            placeholder="Informe seu email"
+            onChangeText={e => setData({...data, email: e})}
+          />
+          <TextInput
+            placeholder="Informe sua senha"
+            secureTextEntry={true}
+            onChangeText={e => setData({...data, password: e})}
+          />
+          <Button title="Cadastrar" onPress={handleRegister} />
+        </View>
+        <View>
+          <Text>Já possui cadastro</Text>
+          <TouchableOpacity onPress={handleLogin}>
+            <Text>Logar</Text>
           </TouchableOpacity>
         </View>
       </View>
