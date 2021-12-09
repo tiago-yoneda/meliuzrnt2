@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  Alert,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
@@ -25,8 +26,22 @@ export default function SignUp() {
   const handleRegister = useCallback(() => {
     api
       .post('users', data)
-      .then(() => navigation.navigate('Logar'))
-      .catch(() => alert('Houve algum erro'));
+      .then(res => {
+        navigation.navigate('Logar');
+        setData({
+          name: '',
+          email: '',
+          password: '',
+        });
+      })
+      .catch(() => Alert('Houve algum erro'))
+      .finally(() => {
+        setData({
+          name: '',
+          email: '',
+          password: '',
+        });
+      });
   }, [data, navigation]);
 
   return (
