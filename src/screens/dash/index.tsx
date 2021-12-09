@@ -2,10 +2,12 @@ import React from 'react';
 
 import {View, Text} from 'react-native';
 
-export default function Dash() {
+const Dash: React.FC = () => {
   return (
     <View>
       <Text>Dash</Text>
     </View>
   );
-}
+};
+
+export default Dash;

@@ -8,7 +8,7 @@ import SignUp from './screens/signup';
 import Dash from './screens/dash';
 
 const {Navigator, Screen} = createStackNavigator();
-export default function Stack() {
+const Stack: React.FC = () => {
   return (
     <NavigationContainer>
       <Navigator
@@ -21,4 +21,6 @@ export default function Stack() {
       </Navigator>
     </NavigationContainer>
   );
-}
+};
+
+export default Stack;
