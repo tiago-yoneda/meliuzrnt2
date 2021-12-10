@@ -8,16 +8,19 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  Alert,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 
-import api from '../../services';
-export default function SignUp() {
-  const navigation = useNavigation();
+import IsAuth from '../../components/IsAuth';
 
-  const [data, setData] = useState({});
+import api from '../../services';
+import {IUser} from '../../types';
+
+const SignUp: React.FC = () => {
+  const navigation: void | any = useNavigation();
+
+  const [data, setData] = useState<IUser>({} as IUser);
 
   const handleLogin = () => {
     navigation.navigate('Logar');
@@ -26,7 +29,7 @@ export default function SignUp() {
   const handleRegister = useCallback(() => {
     api
       .post('users', data)
-      .then(res => {
+      .then(() => {
         navigation.navigate('Logar');
         setData({
           name: '',
@@ -34,7 +37,7 @@ export default function SignUp() {
           password: '',
         });
       })
-      .catch(() => Alert('Houve algum erro'))
+      .catch(err => console.warn(err))
       .finally(() => {
         setData({
           name: '',
@@ -47,6 +50,7 @@ export default function SignUp() {
   return (
     <SafeAreaView>
       <View style={styles.default}>
+        <IsAuth />
         <View style={styles.card}>
           <TextInput
             placeholder="Informe seu nome"
@@ -72,7 +76,9 @@ export default function SignUp() {
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default SignUp;
 
 const styles = StyleSheet.create({
   default: {

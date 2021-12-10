@@ -9,17 +9,28 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
+
+import {useDispatch} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 
 import api from '../../services';
-export default function SignIn() {
-  const [token, setToken] = useState({});
-  const [user, setUser] = useState({});
-  const navigation = useNavigation();
 
+import {getToken} from '../../store/modules/auth/action';
+
+import {IsRedirect} from '../../hook';
+
+import {IUser} from '../../types';
+
+interface IToken {
+  token: string;
+}
+
+const SignIn: React.FC = () => {
+  const dispatch = useDispatch();
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const navigation: void | any = useNavigation();
   const handleLogin = () => {
     api
       .post('session', user, {
@@ -28,13 +39,14 @@ export default function SignIn() {
         },
       })
       .then(response => {
-        console.log(response.data);
-        setToken(response.data);
+        console.log(response.data?.token);
+        // const {token} = data;
+        dispatch(getToken(response.data?.token));
         setTimeout(() => {
           navigation.navigate('dash');
         }, 3000);
       })
-      .catch(err => Alert(err))
+      .catch(err => console.warn(err))
       .finally(() => {
         setUser({
           email: '',
@@ -71,12 +83,13 @@ export default function SignIn() {
           <TouchableOpacity onPress={handleRegister}>
             <Text>Cadastrar</Text>
           </TouchableOpacity>
-          <Text>{token?.token}</Text>
         </View>
       </View>
     </SafeAreaView>
   );
-}
+};
+
+export default SignIn;
 
 const styles = StyleSheet.create({
   default: {
