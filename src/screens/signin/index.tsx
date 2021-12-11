@@ -22,7 +22,7 @@ import {getToken} from '../../store/modules/auth/action';
 import {IUser} from '../../types';
 
 import jwt_decode, {JwtPayload} from 'jwt-decode';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 interface IToken {
   token: string;
 }
@@ -83,20 +83,36 @@ const SignIn: React.FC = () => {
       <View style={styles.default}>
         <View style={styles.card}>
           <Text style={styles.title}>Logar</Text>
-          <View>
+          <View style={styles.sectionStyle}>
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={24}
+              color="black"
+              style={styles.icons}
+            />
             <TextInput
+              style={styles.inputFields}
               placeholder="email"
               value={user.email}
               onChangeText={e => setUser({...user, email: e})}
             />
+          </View>
+          <View style={styles.sectionStyle}>
+            <MaterialCommunityIcons
+              name="lock-outline"
+              size={24}
+              color="black"
+              style={styles.icons}
+            />
             <TextInput
+              style={styles.inputFields}
               placeholder="Senha"
               value={user.password}
               secureTextEntry={true}
               onChangeText={e => setUser({...user, password: e})}
             />
-            <Button title="Logar" onPress={handleLogin} />
           </View>
+          <Button title="Logar" onPress={handleLogin} />
         </View>
         <View>
           <Text>Ainda não tem uma conta?</Text>
@@ -128,5 +144,23 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 5,
+  },
+  inputFields: {
+    width: '70%',
+    textAlign: 'center',
+  },
+  sectionStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#2e4fe1',
+    height: 40,
+    borderRadius: 5,
+    minWidth: 190,
+  },
+  icons: {
+    marginHorizontal: 8,
   },
 });
