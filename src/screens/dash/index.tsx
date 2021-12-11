@@ -8,7 +8,7 @@ const Dash: React.FC = () => {
   return (
     <View style={styles.default}>
       <IsAuth />
-      <Text>Dash</Text>
+      <Text>Dashboard</Text>
     </View>
   );
 };

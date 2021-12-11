@@ -1,15 +1,15 @@
 interface IAction {
   type: string;
   payload: {
-    token: string;
+    data: string;
   };
 }
 
-export const getToken = (token: string): IAction => {
+export const getToken = (data: string): IAction => {
   return {
     type: 'SET_TOKEN',
     payload: {
-      token,
+      data,
     },
   };
 };

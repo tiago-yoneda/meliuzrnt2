@@ -12,7 +12,7 @@ import {
 
 import {useNavigation} from '@react-navigation/native';
 
-import IsAuth from '../../components/IsAuth';
+// import IsAuth from '../../components/IsAuth';
 
 import api from '../../services';
 import {IUser} from '../../types';
@@ -50,7 +50,6 @@ const SignUp: React.FC = () => {
   return (
     <SafeAreaView>
       <View style={styles.default}>
-        <IsAuth />
         <View style={styles.card}>
           <TextInput
             placeholder="Informe seu nome"

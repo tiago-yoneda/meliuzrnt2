@@ -41,7 +41,7 @@ const SignIn: React.FC = () => {
         },
       })
       .then(response => {
-        dispatch(getToken(response.data?.token));
+        dispatch(getToken(response.data));
         setTimeout(() => {
           navigation.navigate('dash');
         }, 3000);
@@ -56,7 +56,6 @@ const SignIn: React.FC = () => {
   };
 
   const isAuth = () => {
-    console.log(globalState);
     if (globalState.auth.token) {
       const tokenPayload = jwt_decode<JwtPayload>(globalState.auth.token);
       const expToken = tokenPayload?.exp;
@@ -73,7 +72,7 @@ const SignIn: React.FC = () => {
     if (isAuth()) {
       navigation.navigate('dash');
     }
-  }, [globalState]);
+  });
 
   const handleRegister = () => {
     navigation.navigate('Cadastre-se');
