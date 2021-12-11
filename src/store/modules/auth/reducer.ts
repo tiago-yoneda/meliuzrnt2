@@ -14,7 +14,7 @@ const AuthToken: Reducer<IAuth | any> = (state = INITIAL_STATE, action) => {
       const {token} = action.payload;
       return {
         ...state,
-        token: token,
+        auth: {token},
       };
     }
     default: {

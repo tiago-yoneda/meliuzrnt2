@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {
   SafeAreaView,
@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -19,9 +19,9 @@ import api from '../../services';
 
 import {getToken} from '../../store/modules/auth/action';
 
-import {IsRedirect} from '../../hook';
-
 import {IUser} from '../../types';
+
+import jwt_decode, {JwtPayload} from 'jwt-decode';
 
 interface IToken {
   token: string;
@@ -29,8 +29,10 @@ interface IToken {
 
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
+  const globalState = useSelector((state: any) => state);
   const [user, setUser] = useState<IUser>({} as IUser);
   const navigation: void | any = useNavigation();
+
   const handleLogin = () => {
     api
       .post('session', user, {
@@ -39,8 +41,6 @@ const SignIn: React.FC = () => {
         },
       })
       .then(response => {
-        console.log(response.data?.token);
-        // const {token} = data;
         dispatch(getToken(response.data?.token));
         setTimeout(() => {
           navigation.navigate('dash');
@@ -55,9 +55,30 @@ const SignIn: React.FC = () => {
       });
   };
 
+  const isAuth = () => {
+    console.log(globalState);
+    if (globalState.auth.token) {
+      const tokenPayload = jwt_decode<JwtPayload>(globalState.auth.token);
+      const expToken = tokenPayload?.exp;
+      const timeNow = Date.now() / 1000;
+      if (expToken) {
+        return timeNow > expToken ? false : true;
+      }
+    } else {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (isAuth()) {
+      navigation.navigate('dash');
+    }
+  }, [globalState]);
+
   const handleRegister = () => {
     navigation.navigate('Cadastre-se');
   };
+
   return (
     <SafeAreaView>
       <View style={styles.default}>

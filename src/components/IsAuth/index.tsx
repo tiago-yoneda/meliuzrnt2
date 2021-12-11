@@ -5,11 +5,10 @@ import {View, Text} from 'react-native';
 import {IAuth} from '../../types';
 
 const IsAuth: React.FC = () => {
-  const globalState = useSelector((state: IAuth) => state.token);
-  console.log('estado', globalState);
+  const globalState = useSelector((state: IAuth) => state);
   return (
     <View>
-      <Text>Está autenticado? {globalState ? 'sim' : 'não'}</Text>
+      <Text>Está autenticado? {globalState.auth.token ? 'sim' : 'não'}</Text>
     </View>
   );
 };
